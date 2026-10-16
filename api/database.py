@@ -10,8 +10,12 @@ engine = create_async_engine(
     settings.database_url,
     echo=False,
     pool_pre_ping=True,
-    pool_size=1,        # serverless-friendly: минимум соединений
+    pool_size=1,  # serverless-friendly: минимум соединений
     max_overflow=2,
+    connect_args={
+        "statement_cache_size": 0,
+        "prepared_statement_cache_size": 0,
+    },
 )
 
 async_session_maker = async_sessionmaker(

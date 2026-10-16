@@ -1,6 +1,7 @@
 from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 class Settings(BaseSettings):
     database_url: str
     direct_url: str | None = None
@@ -9,8 +10,9 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=Path(__file__).resolve().parent.parent / ".env",
         env_file_encoding="utf-8",
-        extra="ignore"
+        extra="ignore",
     )
+
 
 def get_settings():
     return Settings()

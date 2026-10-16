@@ -125,8 +125,33 @@
 1. **Битый хардкод URL в `env.py`:**
    ```python
    direct_url = "postgresql+asyncpg://postgres...:VY8...@://supabase.com"
-   
-**Скриншот:** !)
+**Скриншот:** ![init](./screenshots/02-feat.png)
+## Шаг 2.1: правки после ревью
+
+**Ошибки, которые нашёл сам при проверке:**
+- Alembic брал `database_url` (pooler :6543) вместо `direct_url` (:5432) — миграция прошла, но неоптимально
+- Дубли индексов из-за `index=True` + `Index(...)` в моделях
+- Лишние SUPABASE_* переменные в .env
+
+**Исправил:** env.py → direct_url, модели → убрал index=True, миграция → убрал 2 индекса, .env → почистил
+**Скриншот:** ![init](./screenshots/02.1-fix.png)
+
+## Шаг 3: API-эндпоинт (validators, schemas, services, index)
+
+**Промпт:** [твой запрос]
+
+**Результат:** 5 файлов — validators.py, schemas.py, services/ratelimit.py, services/leads.py, index.py
+
+**Что тестировал:** health, успешная заявка, дубль, невалидный телефон, honeypot, rate limit.
+
+### Ошибки ИИ и итерации
+
+| # | Что было | Как исправил |
+|---|----------|--------------|
+| 1 | `?prepared_statement_cache_size=0` в URL не работает — SQLAlchemy не пробрасывает параметр в asyncpg | Перенёс в `connect_args={"statement_cache_size": 0, "prepared_statement_cache_size": 0}` в `create_async_engine` |
+| 2 | Колонка `leads.id` создана без `server_default` — Alembic autogenerate не подхватывает Python-side `default=uuid4` | Новая миграция `ALTER TABLE leads ALTER COLUMN id SET DEFAULT gen_random_uuid()`, плюс `server_default` в модели |
+
+**Скриншоты:** ![init](./screenshots/03-feat.png), ![dedup](./screenshots/03.1-feat.png)
 
 
 

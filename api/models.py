@@ -1,5 +1,6 @@
 from datetime import datetime
 from uuid import UUID, uuid4
+from sqlalchemy import text
 
 from sqlalchemy import BigInteger, DateTime, Index, String, Text, func
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
@@ -14,7 +15,10 @@ class Lead(Base):
     __tablename__ = "leads"
 
     id: Mapped[UUID] = mapped_column(
-        PGUUID(as_uuid=True), primary_key=True, default=uuid4
+        PGUUID(as_uuid=True),
+        primary_key=True,
+        default=uuid4,
+        server_default=text("gen_random_uuid()"),
     )
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     phone: Mapped[str] = mapped_column(String(20), nullable=False)
@@ -35,9 +39,7 @@ class Lead(Base):
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
 
-    __table_args__ = (
-        Index("idx_leads_phone_created", "phone", created_at.desc()),
-    )
+    __table_args__ = (Index("idx_leads_phone_created", "phone", created_at.desc()),)
 
 
 class RateLimit(Base):
@@ -49,6 +51,4 @@ class RateLimit(Base):
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
 
-    __table_args__ = (
-        Index("idx_rate_limits_ip_created", "ip_address", created_at.desc()),
-    )
+    __table_args__ = (Index("idx_rate_limits_ip_created", "ip_address", created_at.desc()),)
