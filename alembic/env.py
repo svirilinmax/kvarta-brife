@@ -19,7 +19,6 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 settings = get_settings()
-url = settings.direct_url or settings.database_url
 target_metadata = Base.metadata
 
 
