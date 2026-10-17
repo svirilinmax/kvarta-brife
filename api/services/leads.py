@@ -1,12 +1,25 @@
-from sqlalchemy import text
+from datetime import UTC, datetime, timedelta
+
+from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from api.models import Lead, RateLimit
 from api.schemas import LeadIn
-from api.services.ratelimit import record_rate_limit
+from api.settings import get_settings
 from api.validators import normalize_phone, sanitize_text
 
 DUPLICATE_MESSAGE = "Заявка уже принята, мы свяжемся"
 SUCCESS_MESSAGE = "Заявка принята"
+
+
+async def _acquire_phone_lock(session: AsyncSession, phone: str) -> None:
+    """Postgres-only advisory lock. На других диалектах — no-op."""
+    dialect = session.bind.dialect.name if session.bind else "unknown"
+    if dialect == "postgresql":
+        await session.execute(
+            text("SELECT pg_advisory_xact_lock(hashtext(:phone))"),
+            {"phone": phone},
+        )
 
 
 async def create_lead(
@@ -15,60 +28,40 @@ async def create_lead(
     ip: str,
     user_agent: str,
 ) -> dict:
+    settings = get_settings()
     phone = normalize_phone(data.phone)
 
-    # Advisory lock по номеру — закрывает гонку при двойном клике
-    await session.execute(
-        text("SELECT pg_advisory_xact_lock(hashtext(:phone))"),
-        {"phone": phone},
-    )
+    # Защита от гонки при двойном клике (Postgres-only)
+    await _acquire_phone_lock(session, phone)
 
-    # Проверка дубля в окне 10 минут
-    dup = await session.execute(
-        text(
-            "SELECT 1 FROM leads "
-            "WHERE phone = :phone "
-            "AND created_at > NOW() - INTERVAL '10 minutes' "
-            "LIMIT 1"
-        ),
-        {"phone": phone},
-    )
-    if dup.first() is not None:
+    # Проверка дубля — окно из настроек, считаем время в Python
+    cutoff = datetime.now(UTC) - timedelta(minutes=settings.duplicate_window_minutes)
+    dup_stmt = select(Lead.id).where(Lead.phone == phone).where(Lead.created_at > cutoff).limit(1)
+    dup_result = await session.execute(dup_stmt)
+    if dup_result.first() is not None:
         await session.rollback()
         return {"status": "duplicate", "message": DUPLICATE_MESSAGE}
 
-    # INSERT заявки
-    await session.execute(
-        text(
-            """
-            INSERT INTO leads (
-                name, phone, interest, comment,
-                utm_source, utm_medium, utm_campaign, utm_content, utm_term,
-                referrer, landing_page, user_agent, ip_address
-            ) VALUES (
-                :name, :phone, :interest, :comment,
-                :utm_source, :utm_medium, :utm_campaign, :utm_content, :utm_term,
-                :referrer, :landing_page, :user_agent, :ip
-            )
-            """
-        ),
-        {
-            "name": data.name,
-            "phone": phone,
-            "interest": data.interest,
-            "comment": sanitize_text(data.comment, 500),
-            "utm_source": sanitize_text(data.utm_source, 255),
-            "utm_medium": sanitize_text(data.utm_medium, 255),
-            "utm_campaign": sanitize_text(data.utm_campaign, 255),
-            "utm_content": sanitize_text(data.utm_content, 255),
-            "utm_term": sanitize_text(data.utm_term, 255),
-            "referrer": sanitize_text(data.referrer, 2048),
-            "landing_page": sanitize_text(data.landing_page, 2048),
-            "user_agent": sanitize_text(user_agent, 1024),
-            "ip": ip,
-        },
+    # INSERT через ORM
+    lead = Lead(
+        name=data.name,
+        phone=phone,
+        interest=data.interest,
+        comment=sanitize_text(data.comment, 500),
+        utm_source=sanitize_text(data.utm_source, 255),
+        utm_medium=sanitize_text(data.utm_medium, 255),
+        utm_campaign=sanitize_text(data.utm_campaign, 255),
+        utm_content=sanitize_text(data.utm_content, 255),
+        utm_term=sanitize_text(data.utm_term, 255),
+        referrer=sanitize_text(data.referrer, 2048),
+        landing_page=sanitize_text(data.landing_page, 2048),
+        user_agent=sanitize_text(user_agent, 1024),
+        ip_address=ip,
     )
+    session.add(lead)
 
-    await record_rate_limit(session, ip)
+    # Учёт rate limit
+    session.add(RateLimit(ip_address=ip))
+
     await session.commit()
     return {"status": "ok", "message": SUCCESS_MESSAGE}

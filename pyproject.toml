@@ -5,7 +5,7 @@ exclude = ["venv", ".venv", "alembic/versions"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "W", "UP", "B", "C4", "SIM"]
-ignore = ["E501", "B0008"]  # line-length обрабатывает formatter
+ignore = ["E501", "B008"]  # line-length обрабатывает formatter
 
 [tool.black]
 line-length = 100
@@ -21,4 +21,26 @@ exclude = '''
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
 testpaths = ["tests"]
+pythonpath = ["."]
+filterwarnings = [
+    "ignore::PendingDeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["api"]
+omit = [
+    "tests/*",
+    "alembic/*",
+    "*/__init__.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+]

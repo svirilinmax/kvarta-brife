@@ -1,5 +1,6 @@
+import logging
+
 from fastapi import Depends, FastAPI, Request
-from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from mangum import Mangum
 from pydantic import ValidationError
@@ -10,16 +11,17 @@ from api.database import get_session
 from api.schemas import HealthOut, LeadIn, LeadOut
 from api.services.leads import create_lead
 from api.services.ratelimit import check_rate_limit
+from api.settings import get_settings
 from api.validators import PHONE_ERROR
 
-VERSION = "1.0"
-FALLBACK_PHONE = "+375 (25) 111 11 11"  # TODO: заменить на реальный
+settings = get_settings()
 
-import logging
+VERSION = "1.0"
 
 app = FastAPI(title="Кварта API", version=VERSION)
 
 logger = logging.getLogger("kvarta")
+logger.setLevel(settings.log_level.upper())
 
 
 # ---------- Helpers ----------
@@ -45,25 +47,6 @@ def _format_errors(exc: ValidationError) -> dict[str, str]:
             msg = PHONE_ERROR
         errors[field] = msg
     return errors
-
-
-# ---------- Exception handlers ----------
-
-
-@app.exception_handler(RequestValidationError)
-async def validation_handler(request: Request, exc: RequestValidationError):
-    errors: dict[str, str] = {}
-    for err in exc.errors():
-        loc = err.get("loc", [])
-        field = str(loc[-1]) if loc else "body"
-        msg = err.get("msg", "Ошибка валидации")
-        if field == "phone":
-            msg = PHONE_ERROR
-        errors[field] = msg
-    return JSONResponse(
-        status_code=422,
-        content={"status": "error", "message": "Проверьте поля", "errors": errors},
-    )
 
 
 # ---------- Routes ----------
@@ -142,7 +125,7 @@ async def create_lead_endpoint(request: Request, session: AsyncSession = Depends
             status_code=500,
             content={
                 "status": "error",
-                "message": f"Не удалось отправить. Позвоните нам: {FALLBACK_PHONE}",
+                "message": f"Не удалось отправить. Позвоните нам: {settings.fallback_phone}",
             },
         )
 

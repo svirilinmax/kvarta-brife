@@ -153,5 +153,51 @@
 
 **Скриншоты:** ![init](./screenshots/03-feat.png), ![dedup](./screenshots/03.1-feat.png)
 
+## Шаг 4: тесты pytest
+
+**Промпт:** «Сделай шаг 4 с учётом env-констант»
+
+**Результат:** 38 passed, coverage 90% (`pytest --cov --cov-report=term-missing`).
+
+### Что было сломано и как починил (ошибки ИИ в плане шага 4)
+
+| Проблема | Причина | Решение |
+|---|---|---|
+| `ModuleNotFoundError: No module named 'api'` | pytest не видел корень проекта | `pythonpath = ["."]` в `pyproject.toml` |
+| `near "(": syntax error` в `CREATE TABLE leads` | `PGUUID` + `gen_random_uuid()` — Postgres-only | `Uuid(as_uuid=True)` из `sqlalchemy`, Python-side `default=uuid4` |
+| `NOT NULL constraint failed: rate_limits.id` | `BigInteger + autoincrement` не работает на SQLite | `BigInteger().with_variant(Integer, "sqlite")` |
+| `asyncio_default_fixture_loop_scope` warning | pytest-asyncio 0.24 требует явного значения | `asyncio_default_fixture_loop_scope = "function"` |
+| `fixture 'override_settings' not found` | забыл добавить фикстуру в `conftest.py` | добавил `override_settings` рядом с `_clear_settings_cache` |
+| `AssertionError: python-multipart must be installed` | форма с `request.form()` не работает без библиотеки | добавил `python-multipart==0.0.20` в `requirements.txt` |
+| `ruff failed: Unknown rule selector B0008` | `B0008` — устаревшее правило из старого `flake8-bugbear` | удалил из `ignore`, добавил `B008` (FastAPI `Depends`) |
+| `UP017: Use datetime.UTC alias` | `timezone.utc` — устаревший синтаксис (Python 3.11+) | автофикс через `ruff check --fix .` |
+| `I001: Import block is un-sorted` | импорты не по алфавиту | автофикс через `ruff check --fix .` |
+
+### Ошибки ИИ, которые заметил сам
+
+- DeepSeek предложил `PGUUID` — Postgres-only, ломает SQLite-тесты.
+- DeepSeek предложил `BigInteger + autoincrement=True` — на SQLite `BIGINT PRIMARY KEY` не rowid-alias, autoincrement не работает.
+- DeepSeek не предупредил про `@lru_cache` на `get_settings()` и `cache_clear()` в тестах.
+- DeepSeek не упомянул `aiosqlite` в исходном `requirements.txt` — async-тесты на SQLite падали бы.
+- DeepSeek не упомянул `python-multipart` — fallback-форма (без JS) падала бы на проде с `AssertionError`.
+- DeepSeek сгенерировал `pyproject.toml` с несуществующим правилом `B0008` в `ignore`.
+- DeepSeek использовал устаревший `timezone.utc` вместо `UTC`.
+
+### Что понял
+
+- **Тесты на SQLite — лакмус на диалект-зависимость моделей.** «Работает на Postgres» ≠ «переносимо». `with_variant` + Python-side defaults — стандарт для кроссплатформенных моделей.
+- **`python-multipart` нужен не только для файлов.** Обычная HTML-форма (`application/x-www-form-urlencoded`) с `request.form()` без него падает. На фронте fallback без JS не работал бы — поймал тестом `test_lead_form_data`.
+- **`coverage` врёт с `monkeypatch`.** Тесты на 429/500 зелёные, но строки показываются как непокрытые. Это баг `coverage.py`, не тестов.
+- **`@lru_cache` на `get_settings()`** требует `cache_clear()` в тестах, иначе `monkeypatch.setenv` не работает.
+
+### Осознанно не покрыто (90% — это норма)
+
+- `database.py:get_session` (54%) — подменяется через `dependency_overrides`. Rollback проверяется косвенно через `test_lead_server_error`.
+- `leads.py:_acquire_phone_lock` (96%) — Postgres-only advisory lock. На SQLite no-op by design.
+- `index.py:get_client_ip` fallback `"0.0.0.0"` (67%) — требует мока `request.client = None`.
+
+### Финальный прогон
+
+**Скриншоты:** ![init](./screenshots/04-test.png), ![dedup](./screenshots/05-test.png), ![dedup](./screenshots/06-test.png)
 
 

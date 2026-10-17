@@ -3,9 +3,10 @@ import sys
 from logging.config import fileConfig
 from pathlib import Path
 
-from alembic import context
 from sqlalchemy import pool
 from sqlalchemy.ext.asyncio import create_async_engine
+
+from alembic import context
 
 # Добавляем корень проекта в sys.path, чтобы импортировать api.*
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -39,14 +40,9 @@ def run_migrations_offline() -> None:
 
 def do_run_migrations(connection):
     """Синхронный контекст внутри асинхронного соединения."""
-    context.configure(
-        connection=connection,
-        target_metadata=target_metadata,
-        compare_type=True
-    )
+    context.configure(connection=connection, target_metadata=target_metadata, compare_type=True)
     with context.begin_transaction():
         context.run_migrations()
-
 
 
 async def run_migrations_online() -> None:
