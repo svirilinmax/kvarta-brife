@@ -12,6 +12,9 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://kvarta.vercel.app/">
   <meta property="og:image" content="https://kvarta.vercel.app/img/og-cover.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/jpeg">
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="style.css">
@@ -37,13 +40,25 @@
         </div>
       </div>
       <figure class="hero-image">
-        <div class="img-placeholder" aria-hidden="true">обжарка / зёрна</div>
+        <img
+          src="img/hero.webp"
+          alt="Обжарка кофе в мастерской Кварта"
+          width="800"
+          height="1000"
+          fetchpriority="high"
+        >
       </figure>
     </section>
 
     <section class="about" id="about">
       <div class="about-image">
-        <div class="img-placeholder" aria-hidden="true">Аня и Дмитрий</div>
+        <img
+          src="img/founders.webp"
+          alt="Аня и Дмитрий с зёрнами в мастерской"
+          width="800"
+          height="1000"
+          loading="lazy"
+        >
       </div>
       <div class="about-text">
         <p class="eyebrow">О мастерской</p>
@@ -81,7 +96,15 @@
 
       <div class="product-grid">
         <article class="product">
-          <div class="product-image"><div class="img-placeholder">Эфиопия</div></div>
+          <div class="product-image">
+            <img
+              src="img/coffee-1.webp"
+              alt="Эфиопия Иргачеффе — светлая обжарка"
+              width="600"
+              height="450"
+              loading="lazy"
+            >
+          </div>
           <div class="product-body">
             <h3>Эфиопия Иргачеффе</h3>
             <p class="product-notes">цветочный · бергамот</p>
@@ -94,7 +117,15 @@
         </article>
 
         <article class="product">
-          <div class="product-image"><div class="img-placeholder">Колумбия</div></div>
+          <div class="product-image">
+            <img
+              src="img/coffee-2.webp"
+              alt="Колумбия Уила — кофе в воронке"
+              width="600"
+              height="450"
+              loading="lazy"
+            >
+          </div>
           <div class="product-body">
             <h3>Колумбия Уила</h3>
             <p class="product-notes">карамель · красное яблоко</p>
@@ -107,7 +138,15 @@
         </article>
 
         <article class="product">
-          <div class="product-image"><div class="img-placeholder">Бразилия</div></div>
+          <div class="product-image">
+            <img
+              src="img/coffee-3.webp"
+              alt="Бразилия Серрадо — тёмная обжарка"
+              width="600"
+              height="450"
+              loading="lazy"
+            >
+          </div>
           <div class="product-body">
             <h3>Бразилия Серрадо</h3>
             <p class="product-notes">орех · шоколад</p>
@@ -120,7 +159,15 @@
         </article>
 
         <article class="product product-wide">
-          <div class="product-image"><div class="img-placeholder">дрип-пакеты</div></div>
+          <div class="product-image">
+            <img
+              src="img/drip.webp"
+              alt="Процесс обжарки — зёрна высыпаются из ростера"
+              width="800"
+              height="600"
+              loading="lazy"
+            >
+          </div>
           <div class="product-body">
             <h3>Дрип-пакеты, ассорти</h3>
             <p class="product-notes">10 штук · светлая и средняя обжарка</p>

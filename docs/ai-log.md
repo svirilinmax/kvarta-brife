@@ -226,3 +226,24 @@
 
 **Скриншоты:** ![desktop](./screenshots/07-desktop.png), ![desktop](./screenshots/07.1-desktop.png), ![desktop](./screenshots/07.2-desktop.png), ![desktop](./screenshots/07.3-desktop.png), ![desktop](./screenshots/07.4-desktop.png), ![mobile](./screenshots/07-mobile.png), ![mobile](./screenshots/07.1-mobile.png), ![mobile](./screenshots/07.2-mobile.png), ![mobile](./screenshots/07.3-mobile.png)
 
+## Шаг 6: Картинки и финальный дизайн
+
+**Промпт:** «Как подобрать фото? Опиши для каждой картинки размер. Сделай так, чтобы отображалось.»
+
+**Что сделал:**
+- Подобрал 7 фотографий на Unsplash/Pexels по теме: обжарка, зёрна, процесс (без стоковых улыбок).
+- Сжал их через Squoosh в формат WebP (качество 75–80), настроил точные размеры для каждого блока (чтобы не было сдвига макета).
+- Добавил в HTML теги `<img>` с `alt`, `width`, `height`, `loading="lazy"` и `fetchpriority="high"` для главного экрана (важно для LCP).
+- Добавил отдельную горизонтальную картинку `og-cover.jpg` (1200×630) для превью в соцсетях.
+- Обновил CSS: добавил `object-fit: cover`, лёгкий zoom при наведении на карточки, сдержанную тень и акцентные линии для блока «Свежесть».
+
+**Ошибки ИИ / Сложности:**
+- ИИ в шаге 6 дал ссылки на Unsplash, но предупредил, что они могут меняться. Пришлось подбирать фото вручную на сайте, чтобы найти идеальные кадры (руки, ростер, зёрна).
+- Сначала я хотел использовать горизонтальное фото на главный экран, но оно обрезалось. ИИ подсказал, что для Hero нужен вертикальный кадр, а для соцсетей — отдельный горизонтальный `og-cover.jpg`.
+
+**Скриншоты:** 
+![desktop](./screenshots/08-desktop.png), 
+![desktop](./screenshots/08_1-desktop.png), 
+![mobile](./screenshots/08-mobile.png),
+![lighthouse-mobile](./screenshots/lighthouse.png),
+![lighthouse](./screenshots/lighthouse-pc.png),
