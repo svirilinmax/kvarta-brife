@@ -2,7 +2,6 @@ import logging
 
 from fastapi import Depends, FastAPI, Request
 from fastapi.responses import JSONResponse
-from fastapi.staticfiles import StaticFiles
 from mangum import Mangum
 from pydantic import ValidationError
 from sqlalchemy import text
@@ -142,7 +141,5 @@ async def create_lead_endpoint(request: Request, session: AsyncSession = Depends
 
 
 # ---------- Vercel ----------
-if settings.environment == "development":
-    app.mount("/", StaticFiles(directory="public", html=True), name="static")
 
 handler = Mangum(app, lifespan="off")
