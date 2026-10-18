@@ -1,0 +1,22 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0 # Рекомендую обновить до актуальной версии
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+        exclude: ^requirements\.txt$
+      - id: check-yaml
+      - id: check-added-large-files
+
+  - repo: https://github.com/psf/black
+    rev: 24.2.0 # Версия должна совпадать с той, что вы ставите в CI (или быть новее)
+    hooks:
+      - id: black
+        # args убраны, Black возьмет line-length = 100 из pyproject.toml
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.0 # Актуальная версия Ruff
+    hooks:
+      - id: ruff
+        args: [--fix] # Автоматически исправляет сортировку импортов и мелкие ошибки
+      - id: ruff-format # Форматирует код (альтернатива Black, но можно оставить только Black)
