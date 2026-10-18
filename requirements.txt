@@ -26,3 +26,4 @@ pytest-cov==7.1.0
 # Lint & format
 ruff==0.17.0
 black==24.10.0
+pre-commit==4.7.0
