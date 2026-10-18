@@ -1,8 +1,8 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "$schema": "https://vercel.sh",
   "functions": {
     "api/index.py": {
-      "runtime": "python3.12",
+      "runtime": "@vercel/python",
       "maxDuration": 10
     }
   },
