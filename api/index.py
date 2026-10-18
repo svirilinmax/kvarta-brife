@@ -142,7 +142,5 @@ async def create_lead_endpoint(request: Request, session: AsyncSession = Depends
 
 
 # ---------- Vercel ----------
-if settings.environment == "development":
-    app.mount("/", StaticFiles(directory="public", html=True), name="static")
 
 handler = Mangum(app, lifespan="off")
