@@ -118,8 +118,8 @@ async def test_lead_form_data_with_prefix(test_client, test_session):
         "/api/lead",
         data={
             "name": "Анна",
-            "phone": "291234567",       # без 375
-            "phone_prefix": "375",       # скрытое поле
+            "phone": "291234567",  # без 375
+            "phone_prefix": "375",  # скрытое поле
             "interest": "order",
         },
     )
