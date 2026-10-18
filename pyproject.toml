@@ -1,3 +1,26 @@
+# Python application metadata and deployment dependencies
+[project]
+name = "kvarta-brife"
+version = "1.0.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi==0.115.0",
+    "uvicorn[standard]==0.32.0",
+    "mangum==0.18.0",
+    "python-multipart==0.0.32",
+    "sqlalchemy[asyncio]==2.0.36",
+    "asyncpg==0.30.0",
+    "alembic==1.13.3",
+    "psycopg2-binary==2.9.10",
+    "pydantic==2.9.2",
+    "pydantic-settings==2.6.0",
+    "python-dotenv==1.0.1",
+]
+
+# Application, not a library intended for packaging
+[tool.uv]
+package = false
+
 [tool.ruff]
 line-length = 100
 target-version = "py312"
