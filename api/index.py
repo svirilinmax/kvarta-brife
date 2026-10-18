@@ -2,7 +2,6 @@ import logging
 
 from fastapi import Depends, FastAPI, Request
 from fastapi.responses import JSONResponse
-from fastapi.staticfiles import StaticFiles
 from mangum import Mangum
 from pydantic import ValidationError
 from sqlalchemy import text
