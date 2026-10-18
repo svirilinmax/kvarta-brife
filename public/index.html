@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Кварта — свежая обжарка кофе в Минске</title>
+  <meta name="description" content="Обжариваем по четвергам, развозим по пятницам. Зерно у вас на 1–3 день после обжарки. Минск, ул. Короля, 9.">
+  <meta name="theme-color" content="#F7F3EC">
+
+  <meta property="og:title" content="Кварта — свежая обжарка кофе в Минске">
+  <meta property="og:description" content="Обжариваем по четвергам, развозим по пятницам. Зерно у вас на 1–3 день после обжарки.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kvarta.vercel.app/">
+  <meta property="og:image" content="https://kvarta.vercel.app/img/og-cover.jpg">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="header">
+    <a href="#" class="logo" aria-label="Кварта — на главную">
+      <span class="logo-mark">◼</span> Кварта
+    </a>
+    <a href="#form" class="header-cta">Записаться</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-text">
+        <p class="eyebrow">Мастерская обжарки · Минск</p>
+        <h1>Обжариваем<br>по четвергам.<br><span class="hero-accent">Развозим по пятницам.</span></h1>
+        <p class="hero-sub">Зерно у вас на 1–3 день после обжарки. Партии по 5 кг, с 2019 года.</p>
+        <div class="hero-actions">
+          <a href="#shop" class="btn btn-primary">Смотреть кофе</a>
+          <a href="#form" class="btn btn-ghost" data-interest="question">Задать вопрос</a>
+        </div>
+      </div>
+      <figure class="hero-image">
+        <div class="img-placeholder" aria-hidden="true">обжарка / зёрна</div>
+      </figure>
+    </section>
+
+    <section class="about" id="about">
+      <div class="about-image">
+        <div class="img-placeholder" aria-hidden="true">Аня и Дмитрий</div>
+      </div>
+      <div class="about-text">
+        <p class="eyebrow">О мастерской</p>
+        <h2>Аня и Дмитрий. Раньше — бариста. Теперь обжаривают сами.</h2>
+        <p>С 2019 года жарим партиями по 5 кг на небольшом ростере. Без «промышленных» объёмов, без долгих складов: зерно уезжает к вам почти сразу после обжарки.</p>
+        <p>Пока варите — мы уже думаем, что жарить в следующий четверг.</p>
+      </div>
+    </section>
+
+    <section class="freshness">
+      <p class="eyebrow">Почему это важно</p>
+      <h2>Свежесть — это не маркетинг. Это вкус.</h2>
+      <div class="fresh-grid">
+        <div class="fresh-item">
+          <span class="fresh-num">1–3</span>
+          <p>дня после обжарки — оптимальное окно для раскрытия вкуса. Мы привозим именно в нём.</p>
+        </div>
+        <div class="fresh-item">
+          <span class="fresh-num">5 кг</span>
+          <p>партия. Не жарим впрок — только под заказы. Так зерно не лежит на складе.</p>
+        </div>
+        <div class="fresh-item">
+          <span class="fresh-num">14</span>
+          <p>дней — срок, после которого вкус начинает уходить. У нас вы получаете зерно в начале этого пути.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="shop" id="shop">
+      <div class="section-head">
+        <p class="eyebrow">Что жарим сейчас</p>
+        <h2>Ассортимент</h2>
+        <p class="section-sub">Каждая пачка — 250 г. Цены в BYN.</p>
+      </div>
+
+      <div class="product-grid">
+        <article class="product">
+          <div class="product-image"><div class="img-placeholder">Эфиопия</div></div>
+          <div class="product-body">
+            <h3>Эфиопия Иргачеффе</h3>
+            <p class="product-notes">цветочный · бергамот</p>
+            <p class="product-desc">Светлая обжарка. Для воронки и аэропресса.</p>
+            <div class="product-foot">
+              <span class="price">32 BYN</span>
+              <button class="btn btn-small" data-interest="order" data-product="Эфиопия Иргачеффе">Заказать</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product">
+          <div class="product-image"><div class="img-placeholder">Колумбия</div></div>
+          <div class="product-body">
+            <h3>Колумбия Уила</h3>
+            <p class="product-notes">карамель · красное яблоко</p>
+            <p class="product-desc">Универсал: хорошо и в эспрессо, и в фильтре.</p>
+            <div class="product-foot">
+              <span class="price">29 BYN</span>
+              <button class="btn btn-small" data-interest="order" data-product="Колумбия Уила">Заказать</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product">
+          <div class="product-image"><div class="img-placeholder">Бразилия</div></div>
+          <div class="product-body">
+            <h3>Бразилия Серрадо</h3>
+            <p class="product-notes">орех · шоколад</p>
+            <p class="product-desc">Тёмная обжарка, под эспрессо. Плотное тело.</p>
+            <div class="product-foot">
+              <span class="price">26 BYN</span>
+              <button class="btn btn-small" data-interest="order" data-product="Бразилия Серрадо">Заказать</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product product-wide">
+          <div class="product-image"><div class="img-placeholder">дрип-пакеты</div></div>
+          <div class="product-body">
+            <h3>Дрип-пакеты, ассорти</h3>
+            <p class="product-notes">10 штук · светлая и средняя обжарка</p>
+            <p class="product-desc">Для тех, кто пьёт кофе в офисе или в поездке. Залить водой — и готово.</p>
+            <div class="product-foot">
+              <span class="price">18 BYN</span>
+              <button class="btn btn-small" data-interest="order" data-product="Дрип-пакеты">Заказать</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="subscription" id="subscription">
+      <div class="sub-text">
+        <p class="eyebrow">Подписка</p>
+        <h2>Две пачки в месяц.<br>Свежая обжарка. Бесплатно.</h2>
+        <p>Раз в месяц привозим два пакета по 250 г — на выбор из ассортимента. Доставка по Минску бесплатно. Можно поставить на паузу или отменить в один звонок.</p>
+        <button class="btn btn-primary" data-interest="subscription" data-product="Подписка">Оформить подписку</button>
+      </div>
+      <div class="sub-price">
+        <span class="price-big">54</span>
+        <span class="price-unit">BYN / мес</span>
+        <p class="sub-note">2 пачки × 250 г. Бесплатная доставка.</p>
+      </div>
+    </section>
+
+    <section class="delivery" id="delivery">
+      <div class="delivery-grid">
+        <div>
+          <p class="eyebrow">Самовывоз</p>
+          <h3>Минск, ул. Короля, 9</h3>
+          <p>Пн–пт 8:00–20:00<br>Сб–вс 10:00–18:00</p>
+          <p class="muted">Мастерская — вторая дверь, стучать не надо. Просто заходите.</p>
+        </div>
+        <div>
+          <p class="eyebrow">Доставка</p>
+          <h3>По Минску — в пятницу</h3>
+          <p>От 50 BYN — бесплатно.<br>До 50 BYN — 5 BYN по городу.</p>
+          <p class="muted">Если очень нужно раньше — позвоните, обсудим.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section" id="form">
+      <div class="form-wrap">
+        <div class="form-head">
+          <p class="eyebrow">Заявка</p>
+          <h2>Оставьте номер — перезвоним и оформим</h2>
+          <p>Менеджер (это Аня или Дмитрий) позвонит в течение рабочего дня. Без спама и без «спецпредложений».</p>
+        </div>
+
+        <form id="lead-form" class="form" action="/api/lead" method="POST" novalidate>
+          <div class="field">
+            <label for="name">Имя <span class="req" aria-hidden="true">*</span></label>
+            <input type="text" id="name" name="name" required minlength="2" maxlength="100" autocomplete="name" placeholder="Как к вам обращаться">
+          </div>
+
+          <div class="field">
+            <label for="phone">Телефон <span class="req" aria-hidden="true">*</span></label>
+            <div class="phone-input">
+              <span class="phone-prefix" aria-hidden="true">
+                <span class="flag">🇧🇾</span> +375
+              </span>
+              <input type="hidden" name="phone_prefix" value="375">
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                required
+                inputmode="numeric"
+                autocomplete="tel-national"
+                placeholder="(29) 123-45-67"
+                maxlength="16"
+              >
+            </div>
+            <span class="field-hint" id="phone-hint">Введите код оператора и номер</span>
+          </div>
+
+          <div class="field">
+            <label for="interest">Что интересует <span class="req" aria-hidden="true">*</span></label>
+            <select id="interest" name="interest" required>
+              <option value="">— выберите —</option>
+              <option value="subscription">Подписка на кофе</option>
+              <option value="order">Разовый заказ</option>
+              <option value="question">Вопрос</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="comment">Комментарий <span class="muted">— необязательно</span></label>
+            <textarea id="comment" name="comment" rows="3" maxlength="500" placeholder="Например: нужна помощь с помолом"></textarea>
+          </div>
+
+          <div class="honeypot" aria-hidden="true">
+            <label for="website">Не заполняйте</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-large" id="submit-btn">
+              Отправить заявку
+            </button>
+            <button type="button" class="btn btn-ghost btn-large" id="reset-btn">
+              Очистить
+            </button>
+          </div>
+
+          <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+          <p class="form-fineprint">Нажимая «Отправить», вы соглашаетесь на обработку персональных данных. Только для связи по заявке.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <div class="logo"><span class="logo-mark">◼</span> Кварта</div>
+        <p class="muted">Мастерская обжарки кофе.<br>Минск, с 2019 года.</p>
+      </div>
+      <div>
+        <p class="footer-heading">Контакты</p>
+        <p><a href="tel:+375291234567">+375 (29) 123-45-67</a></p>
+        <p><a href="mailto:hi@kvarta.by">hi@kvarta.by</a></p>
+      </div>
+      <div>
+        <p class="footer-heading">Мастерская</p>
+        <p>ул. Короля, 9</p>
+        <p>Пн–пт 8:00–20:00<br>Сб–вс 10:00–18:00</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2019–2026 Кварта</span>
+      <span>Сделано без корзины и онлайн-оплаты. По-человечески.</span>
+    </div>
+  </footer>
+
+  <button id="scroll-top" class="scroll-top" aria-label="Наверх" title="Наверх">
+    ↑
+  </button>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

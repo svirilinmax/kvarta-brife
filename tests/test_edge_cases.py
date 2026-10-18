@@ -112,15 +112,19 @@ def test_leadin_strip_optional_empty():
 
 
 @pytest.mark.asyncio
-async def test_lead_form_data(test_client, test_session):
-    """Fallback без JS: form-data POST (не JSON)."""
+async def test_lead_form_data_with_prefix(test_client, test_session):
+    """Fallback без JS: телефон приходит без 375, склеивается через phone_prefix."""
     resp = await test_client.post(
         "/api/lead",
         data={
             "name": "Анна",
-            "phone": "+375291234567",
+            "phone": "291234567",       # без 375
+            "phone_prefix": "375",       # скрытое поле
             "interest": "order",
         },
     )
     assert resp.status_code == 200
     assert resp.json()["status"] == "ok"
+
+    lead = (await test_session.execute(select(Lead))).scalars().first()
+    assert lead.phone == "375291234567"
